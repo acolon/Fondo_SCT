@@ -18,35 +18,15 @@ class UserInfo():
 
 class MiembroInfo():
 
-	username = ''
+	nombre = ''
+	email  = ''
 	cuenta = ''
-	nombre_banco = ''
-
-	user = None
-	banco = None
 
 	def __init__(self, arr):
-		self.username = arr[0].lower()
-		self.cuenta = arr[1]
-		self.nombre_banco = arr[2]
+		self.nombre = arr[0].strip().title()
+		self.email  = arr[1].strip().lower()
+		self.cuenta = arr[2].strip()
 
-		try:
-			self.user = User.objects.get(username=self.username)
-		except:
-			self.user = None
-
-		try:
-			self.banco = Banco.objects.get(nombre=self.nombre_banco)
-		except:
-			self.banco = None
-
-	@property
-	def is_valid(self):
-		r = False
-		if self.user:
-			r = True
-		return r
-	
 
 def gen_pwd():
 	a = string.ascii_letters
@@ -62,64 +42,44 @@ def gen_pwd():
 	return r
 
 
-def load_users():
-
-	users = []
-	users.append(('ramiro', 'ramiro', 'sanchez', 'ramiroenrique@gmail.com'))
-	users.append(('amaury', 'juan amaury', 'vasquez', 'juanamaury@gmail.com'))
-	users.append(('nakasu', 'Michael', 'Nakasu', 'nakasu@hotmail.com')) 
-	users.append(('marlenne', 'Marlenne', 'Ruiz', 'mm.marlenneruiz@gmail.com'))
-	users.append(('victor', 'Victor', 'Cocco', 'vcoccomedina@gmail.com'))
-	users.append(('cocco', 'jose', 'cocco', 'joco45@hotmail.com'))
-	users.append(('maria', 'maria', 'chevalier', 'cheva78@hotmail.com'))
-	users.append(('jeffrey', 'Jeffrey', 'Tello', 'jtellog89@gmail.com'))
-	users.append(('sucre', 'Sucre', 'Brens', 'sucrebrens@gmail.com'))
-	users.append(('dahiana', 'dahiana', 'Paulino', 'Dahiana.Paulino@quadpackaging.com'))
-
-	for u in users:
-		o = UserInfo(u)
-		p = gen_pwd()
-		User.objects.create_user(o.username, o.email, p, 
-			first_name = o.first_name,
-			last_name  = o.last_name
-			)
-
-
 def load_miembros():
+
 	arr = []
-	#arr.append(('dahiana', 	'779547777', 	'Popular'))
-	#arr.append(('amaury', 	'791103112', 	'Popular'))
-	arr.append(('andres', 	'751541129', 	'Popular'))
-	arr.append(('annya', 	'748457280', 	'Popular'))
-	arr.append(('victor', 	'803376532', 	'Popular'))
-	arr.append(('david', 	'728562497', 	'Popular'))
-	arr.append(('sucre', 	'725268080', 	'Popular'))
-	arr.append(('maria', 	'702483348', 	'Popular'))
-	arr.append(('marlenne', 	'2610013835', 	'Reservas'))
-	arr.append(('jaissa', 	'719042806', 	'Popular'))
-	arr.append(('ramiro', 	'804782951', 	'Popular'))
+
+	'''
+	arr.append(('dahiana', 'Dahiana.Paulino@quadpackaging.com', '779547777'))
+	arr.append(('Juan Amaury vasquez', 'juanamaury@gmail.com', '791103112'))
+	arr.append(('Andres Germán', '<pendiente>', '751541129'))
+	arr.append(('Annya Medrano', '<pendiente>', '748457280'))
+	arr.append(('Victor Cocco', 'vcoccomedina@gmail.com', '803376532'))
+	arr.append(('David Sanchez', '<pendiente>', '728562497'))
+	arr.append(('Sucre Brens', 'sucrebrens@gmail.com', '725268080'))
+	arr.append(('Maria Chevalier', 'cheva78@hotmail.com', '702483348'))
+	arr.append(('marlenne Ruiz', 'mm.marlenneruiz@gmail.com', '2610013835'))
+	arr.append(('jaissa fernandez', '<pendiente>', '719042806'))
+	arr.append(('ramiro sanchez', 'ramiroenrique@gmail.com', '804782951'))
+	arr.append(('michael nakasu', 'nakasu@hotmail.com', '')) 
+	arr.append(('jose cocco', 'joco45@hotmail.com', ''))
+	arr.append(('Jeffrey Tello', 'jtellog89@gmail.com', ''))
+	#'''
+
+	'''
+	nombre	
+	email	
+	cuenta	
+	banco	
+	fecha_nac
+	fecha_ing
+	activo	
+	#'''
 
 	for c in arr:
 
 		m = MiembroInfo(c)
 
-		first_name = '.'
-		last_name = '.'
-		email = '.'
-		
-		if m.is_valid:
-			first_name 	= m.user.first_name
-			last_name  	= m.user.last_name
-			email 		= m.user.email
-		
 		Miembro.objects.create(
-			nombre 		= first_name,
-			apellido 	= last_name,
-			email 		= email,
-			username	= m.username,
+			nombre 		= m.nombre,
+			email 		= m.email,
 			cuenta 		= m.cuenta,
-			banco 		= m.banco,
-			fecha_ingreso = '2014-10-30',
-			usuario 	= m.user
 			)
 

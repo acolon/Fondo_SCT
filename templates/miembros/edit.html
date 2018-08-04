@@ -1,15 +1,32 @@
 {% extends "base.html" %}
-{% load bootstrap3 %}
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+{% block extrahead %}       {# Extra Resources Start #}
+{{ form.media }}            {# Form required JS and CSS #}
+{% endblock %}              {# Extra Resources End #}
+
 
 {% block title %}
+	{% if object %}
+		Actualizar Datos
+	{% else %}
 		Registrar Miembro del Equipo
+	{% endif %}
 {% endblock %}
 
 {% block content %}
 
 	<div class="row"><div class="col-sm-12">
 		<h1>
+			{% if object %}
+				Actualizar Datos
+			{% else %}
 				Registrar Miembro del Equipo
+			{% endif %}
 		</h1>
 	</div></div>
 
@@ -20,7 +37,12 @@
 				{% bootstrap_form form %}
 				{% buttons %}
 					<button type="submit" class="btn btn-primary">
-						{% bootstrap_icon "star" %}&nbsp;Grabar Cambios
+						<i class="fas fa-save fa-fw"></i>
+							{% if object %}
+								Grabar Cambios
+							{% else %}
+								Agregar Miembro
+							{% endif %}
 					</button>
 				{% endbuttons %}
 			</form>

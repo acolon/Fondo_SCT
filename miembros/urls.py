@@ -11,6 +11,15 @@ urlpatterns = [
 		views.MiembrosCreateView.as_view(), 
 		name='add'), 
 
+	url(r'^(?P<pk>\d+)/edit/$', 
+		views.MiembrosUpdateView.as_view(), 
+		name='edit'), 
+	
+
+	url(r'^carga/$', 
+		views.CargaUsuarios.as_view(), 
+		name='carga'), 
+
 	]
 
 """

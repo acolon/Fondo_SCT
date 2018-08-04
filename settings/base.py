@@ -42,8 +42,10 @@ INSTALLED_APPS = [
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.humanize',
-    'bootstrap3',
-	'miembros',
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
+	'users',
+    'miembros',
 ]
 
 MIDDLEWARE = [
@@ -82,12 +84,12 @@ WSGI_APPLICATION = 'fondo_sct.wsgi.application'
 
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.postgresql',
-		'NAME': 'sctdb',
-		'USER': 'sctapp',
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'sct_db',
+		'USER': 'sct_user',
 		'PASSWORD': get_env_variable('SCT_DB_PWD'),
-		'HOST': '127.0.0.1',
-		'PORT': '5432',
+		'HOST': 'localhost',
+        'PORT': '3306',
 	}
 }
 
@@ -133,9 +135,10 @@ STATICFILES_DIRS = (
 	os.path.join(BASE_DIR, 'static'),
 )
 
-LOGIN_URL = '/login/'
+AUTH_USER_MODEL = 'users.CunaUser'
+LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/members/login/'
+LOGOUT_REDIRECT_URL = '/users/login/'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -145,3 +148,19 @@ EMAIL_HOST_PASSWORD = get_env_variable('SCT_EMAIL_PWD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+
+# BootStrap 
+BOOTSTRAP4 = {
+	'include_jquery': True,
+}
+
+
+'''
+print()
+print('*'*50)
+print(BASE_DIR)
+print(TEMPLATES[0]['DIRS'])
+print(STATICFILES_DIRS)
+print('*'*50)
+print()
+#'''

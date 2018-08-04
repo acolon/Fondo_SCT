@@ -11,10 +11,6 @@ class MiembroManager(models.Manager):
 		qs = self.filter(activo=True)
 		return qs
 
-	def sin_confirmar(self):
-		qs = self.filter(usuario=Null)
-		return qs
-
 
 # ==================================================
 # Model Classes
@@ -31,25 +27,13 @@ class Banco(models.Model):
 
 
 class Miembro(models.Model):
-	nombre			= models.CharField(max_length=50)
-	apellido		= models.CharField(max_length=50)
-	email			= models.EmailField()
-	cuenta			= models.CharField(max_length=50)
-	banco			= models.ForeignKey(Banco, on_delete=models.PROTECT)
-	fecha_ingreso	= models.DateField()
-	username		= models.CharField(max_length=50)
-	activo			= models.BooleanField(default=True)
-	usuario			= models.ForeignKey(
-							settings.AUTH_USER_MODEL, 
-							blank=True,
-							null=True)
-
-	@property
-	def configurado(self):
-		r = 'No'
-		if self.usuario:
-			r = 'Si'
-		return r
+	nombre		= models.CharField(max_length=100)
+	email		= models.EmailField()
+	cuenta		= models.CharField(max_length=50, blank=True)
+	banco		= models.ForeignKey(Banco, null=True, on_delete=models.SET_NULL)
+	fecha_nac	= models.DateField(null=True)
+	fecha_ing	= models.DateField(null=True)
+	activo		= models.BooleanField(default=True)
 
 	objects = MiembroManager()
 	
@@ -58,11 +42,10 @@ class Miembro(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.nombre = self.nombre.strip().title()
-		self.apellido = self.apellido.strip().title()
 		self.email = self.email.strip().lower()
-		self.username = self.username.strip().lower()
 		super(Miembro, self).save(*args, **kwargs)
 
 	class Meta:
 		ordering=['nombre']
+		
 

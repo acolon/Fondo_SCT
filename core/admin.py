@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+# ==================================================
+# Admin Mixins
+# ==================================================
+
+class BasicListAdmin(object):
+	list_display = [ 'descripcion' ]
+	search_fields = [ 'descripcion' ]
+
+

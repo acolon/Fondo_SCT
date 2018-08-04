@@ -3,10 +3,12 @@ from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 
 from .models import Miembro
-from core.utils import load_users, load_miembros
+from .forms import MiembroForm
+from core.utils import load_miembros
 
 # ==================================================
 # Mixins
@@ -17,10 +19,10 @@ class MiembroMixin(LoginRequiredMixin):
 	success_url = reverse_lazy('miembros:list')
 
 
-class MiembroEditMixin(MiembroMixin):
+class MiembroEditMixin(MiembroMixin, PermissionRequiredMixin):
 	template_name = 'miembros/edit.html'
-	fields = [ 'nombre', 'apellido', 'email', 'fecha_ingreso', 
-			'cuenta', 'banco', 'username' ]
+	form_class = MiembroForm
+	permission_required = ('miembros.can_add', 'miembros.can_edit')
 
 
 # ==================================================
@@ -39,7 +41,11 @@ class MiembrosCreateView(MiembroEditMixin, CreateView):
 	pass
 
 
-"""
+class MiembrosUpdateView(MiembroEditMixin, UpdateView):
+	pass
+
+
+#"""
 # Sólo se utiliza una vez
 class CargaUsuarios(View):
 
@@ -50,7 +56,6 @@ class CargaUsuarios(View):
 		print('*'*50)
 		print()
 
-		#load_users()
 		load_miembros()
 		return redirect('miembros:list')
-"""
+#"""

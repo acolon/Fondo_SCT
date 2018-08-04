@@ -20,7 +20,7 @@ from .views import TempView
 
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),
-	url(r'^members/', include('django.contrib.auth.urls')),
+	url(r'^users/', include('django.contrib.auth.urls')),
     url(r'^miembros/', include('miembros.urls', namespace='miembros')), 
 	url(r'^$', TempView.as_view(), name='dashboard')
 ]

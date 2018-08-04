@@ -3,15 +3,6 @@ from django.contrib import admin
 from .models import Banco, Miembro
 
 # ==================================================
-# Admin Mixins
-# ==================================================
-
-class BasicListAdmin(object):
-	list_display = [ 'descripcion' ]
-	search_fields = [ 'descripcion' ]
-
-
-# ==================================================
 # Admin Registrations
 # ==================================================
 
@@ -23,10 +14,8 @@ class BancoAdmin(admin.ModelAdmin):
 
 @admin.register(Miembro)
 class MiembroAdmin(admin.ModelAdmin):
-	list_display  = [ 
-			'nombre', 'apellido', 'email', 'cuenta', 
-			'banco', 'fecha_ingreso', 'username', 
-			'activo', 'usuario'
+	list_display  = [ 'nombre', 'email', 'cuenta', 'banco', 
+			'fecha_nac', 'fecha_ing', 'activo'
 			]
-	search_fields = [ 'nombre', 'apellido' ]
+	search_fields = [ 'nombre' ]
 

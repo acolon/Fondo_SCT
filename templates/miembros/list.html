@@ -10,58 +10,65 @@ Miembros Reistrados
 {% endblock app_css %}
 
 {% block content %}
-	<div class="row">
-		<div id="app_header" class="col-sm-12">
-			<h1>
-				Miembros del Equipo
-			</h1>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12">
 
-	<table id="tbl_list" class="table table-striped table-hover table-condensed">
-		<thead class="table_header">
+	<div id="app_header">
+		<h1>Miembros del Equipo</h1>
+	</div>
+
+	<a href="{% url 'miembros:add' %}" class="button btn btn-outline-primary btn-sm">
+		<i class="fas fa-user-plus fa-fw"></i>
+		Nuevo Miembro
+	</a>
+
+	<!--
+	<a href="{% url 'miembros:carga' %}" class="button btn btn-outline-primary btn-sm">
+		<i class="fas fa-user-plus fa-fw"></i>
+		Carga Inicial
+	</a>
+	-->
+
+	<table class="table table-sm table-striped table-hover table-bordered">
+		<thead class="thead-light">
 			<tr>
-				<th>
-					<a href="{% url 'miembros:add' %}" class="btn btn-default btn-sm" role="button">
-						<span class="glyphicon glyphicon-plus"></span>&nbsp;Registrar Nuevo Miembro</a>
-				</th>
-				<th></th>
-			</tr>
-			<tr>
-				<th class="col-sm-2">Nombre</th>
-				<th class="col-sm-2">Apellido</th>
+				<th>Nombre</th>
 				<th>Email</th>
+				<th>Fecha Nac.</th>
 				<th>Cuenta</th>
 				<th>Banco</th>
-				<th>Fecha Ingreso</th>
+				<th>Fecha Ing.</th>
 				<th>Usuario</th>
-				<th>Conf.</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for item in object_list %}
-				{% if item.configurado == "No" %}
-				<tr class="warning">
-					{% else %}
-				<tr>
-				{% endif %}
-					<td>{{ item.nombre }}</td>
-					<td>{{ item.apellido }}</td>
+					<td>
+						<a href="{% url 'miembros:edit' item.id %}">
+							{{ item.nombre }}
+						</a>
+					</td>
 					<td>{{ item.email }}</td>
+
+					<td>
+						{% if item.fecha_nac %}
+							{{ item.fecha_nac }}
+						{% endif %}
+					</td>
+
 					<td>{{ item.cuenta }}</td>
 					<td>{{ item.banco.nombre }}</td>
-					<td>{{ item.fecha_ingreso }}</td>
-					<td>{{ item.username }}</td>
-					<td>{{ item.configurado }}</td>
+
+					<td>
+						{% if item.fecha_ing %}
+							{{ item.fecha_ing }}
+						{% endif %}
+					</td>
+
+					<td>{{ item.user.username }}</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 
-		</div>
-	</div>
 {% endblock %}
 
 {% block domready %}
